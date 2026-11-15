@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Shop the Collection</title>
+<style>
+:root{--bg:#f6f5f2;--surface:#fff;--text:#1c1b19;--muted:#6b6862;--line:#e4e1da;--accent:#c2410c;--accent-text:#fff;--star:#e8a317;color-scheme:light;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#161513;--surface:#201f1c;--text:#f1efea;--muted:#a09c93;--line:#34312c;--accent:#fb923c;--accent-text:#1c1b19;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#161513;--surface:#201f1c;--text:#f1efea;--muted:#a09c93;--line:#34312c;--accent:#fb923c;--accent-text:#1c1b19;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+button,input,select{font:inherit;color:inherit}
+header{background:var(--surface);border-bottom:1px solid var(--line);position:sticky;top:env(safe-area-inset-top,0px);z-index:5}
+.bar{max-width:1200px;margin:0 auto;padding:.75rem 1rem;display:flex;gap:.75rem;align-items:center;flex-wrap:wrap}
+.logo{font-weight:800;font-size:1.25rem;letter-spacing:-.02em}
+.search{flex:1 1 220px;padding:.55rem .9rem;border:1px solid var(--line);border-radius:999px;background:var(--bg)}
+.cart{border:1px solid var(--line);background:var(--bg);border-radius:999px;padding:.5rem .9rem;cursor:pointer}
+main{max-width:1200px;margin:0 auto;padding:1rem;display:grid;grid-template-columns:260px 1fr;gap:1.5rem}
+aside{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:1rem;align-self:start;position:sticky;top:calc(4.5rem + env(safe-area-inset-top,0px))}
+aside h3{margin:1.1rem 0 .5rem;font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+aside h3:first-child{margin-top:0}
+.opt{display:flex;align-items:center;gap:.5rem;padding:.2rem 0;cursor:pointer}
+.opt small{margin-left:auto;color:var(--muted)}
+.row{display:flex;gap:.5rem}
+.row input{width:100%;padding:.45rem .6rem;border:1px solid var(--line);border-radius:8px;background:var(--bg)}
+.range{margin:.4rem 0 0;font-size:.9rem;color:var(--muted)}
+.link{background:none;border:0;color:var(--accent);cursor:pointer;padding:0;font-size:.85rem}
+.btn{background:var(--accent);color:var(--accent-text);border:0;border-radius:10px;padding:.6rem 1rem;font-weight:600;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line)}
+.btn:hover{filter:brightness(.93)}
+.btn.full{width:100%;margin-top:1rem}
+.top{display:flex;justify-content:space-between;align-items:center;gap:.75rem;flex-wrap:wrap;margin-bottom:.75rem}
+.top select{padding:.5rem .7rem;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+.toggle{display:none}
+.badges{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1rem}
+.badge{display:inline-flex;gap:.35rem;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:.2rem .3rem .2rem .7rem;font-size:.85rem}
+.badge button{border:0;background:var(--bg);border-radius:50%;width:1.3rem;height:1.3rem;cursor:pointer;line-height:1}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:1rem}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
+.card img{width:100%;aspect-ratio:1;object-fit:cover;display:block;cursor:pointer}
+.info{padding:.8rem;display:flex;flex-direction:column;gap:.25rem;flex:1}
+.cat{font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.name{font-weight:600;cursor:pointer;background:none;border:0;padding:0;text-align:left}
+.stars{color:var(--star);letter-spacing:1px}
+.stars span{color:var(--muted);font-size:.8rem;letter-spacing:0;margin-left:.3rem}
+.price{font-size:1.15rem;font-weight:700;margin-top:auto}
+.card .btn{margin-top:.5rem}
+.empty{text-align:center;padding:3rem 1rem;background:var(--surface);border:1px dashed var(--line);border-radius:14px}
+.more{text-align:center;margin:1.5rem 0}
+dialog{border:1px solid var(--line);border-radius:16px;background:var(--surface);color:var(--text);max-width:640px;width:calc(100% - 2rem);padding:0}
+dialog::backdrop{background:rgba(0,0,0,.5)}
+.det{display:grid;grid-template-columns:1fr 1fr;gap:1rem;padding:1rem}
+.det img{width:100%;border-radius:12px}
+.toast{position:fixed;left:50%;bottom:calc(1rem + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--text);color:var(--bg);padding:.6rem 1rem;border-radius:999px;opacity:0;pointer-events:none;transition:opacity .2s}
+.toast.on{opacity:1}
+@media (max-width:860px){
+main{grid-template-columns:1fr}
+aside{display:none;position:static}
+aside.open{display:block}
+.toggle{display:inline-block}
+.det{grid-template-columns:1fr}
+}
+@media (max-width:420px){.grid{grid-template-columns:repeat(2,1fr);gap:.6rem}.info{padding:.6rem}}
+</style>
+</head>
+<body>
+<header><div class="bar">
+  <span class="logo">Atelier&nbsp;Shop</span>
+  <input id="search" class="search" type="search" placeholder="Search products…" aria-label="Search products">
+  <button class="cart" id="cart" aria-label="Cart">🛒 Cart (<span id="cartCount">0</span>)</button>
+</div></header>
+
+<main>
+  <aside id="filters" aria-label="Filters">
+    <h3>Categories</h3><div id="catList"></div>
+    <button class="link" id="clearCats">Clear categories</button>
+    <h3>Price</h3>
+    <div class="row">
+      <input id="min" type="number" min="0" placeholder="Min" aria-label="Minimum price">
+      <input id="max" type="number" min="0" placeholder="Max" aria-label="Maximum price">
+    </div>
+    <p class="range" id="range"></p>
+    <h3>Rating</h3><div id="ratingList"></div>
+    <button class="btn ghost full" id="clearAll">Clear all filters</button>
+  </aside>
+
+  <section>
+    <div class="top">
+      <div><strong id="count">0</strong> <span id="countLabel">products</span></div>
+      <div style="display:flex;gap:.5rem">
+        <button class="btn ghost toggle" id="toggle">Filters</button>
+        <select id="sort" aria-label="Sort products">
+          <option value="default">Default sorting</option>
+          <option value="price-asc">Price: Low to High</option>
+          <option value="price-desc">Price: High to Low</option>
+          <option value="rating-asc">Rating: Low to High</option>
+          <option value="rating-desc">Rating: High to Low</option>
+          <option value="name-asc">Name: A to Z</option>
+          <option value="name-desc">Name: Z to A</option>
+        </select>
+      </div>
+    </div>
+    <div class="badges" id="badges"></div>
+    <div class="grid" id="grid"></div>
+    <div class="empty" id="empty" hidden>
+      <p><strong>No products match your filters.</strong></p>
+      <p style="color:var(--muted)">Try widening the price range or clearing a filter.</p>
+      <button class="btn" id="emptyClear">Clear all filters</button>
+    </div>
+    <div class="more"><button class="btn ghost" id="more" hidden>Load more</button></div>
+  </section>
+</main>
+
+<dialog id="modal"><div id="modalBody"></div></dialog>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+// ---------- Data (single source of truth) ----------
+const products = [
+  ["Linen Shirt","Clothing",49,4.5,"👕",20],["Denim Jacket","Clothing",89,4.2,"🧥",215],
+  ["Wool Beanie","Clothing",19,3.8,"🧢",350],["Summer Dress","Clothing",65,4.7,"👗",330],
+  ["Chino Pants","Clothing",55,3.4,"👖",40],["Knit Scarf","Clothing",24,2.9,"🧣",10],
+  ["Running Sneakers","Footwear",110,4.6,"👟",200],["Leather Boots","Footwear",145,4.3,"🥾",25],
+  ["Canvas Slip-ons","Footwear",42,3.1,"🩴",160],["Classic Loafers","Footwear",98,3.9,"👞",30],
+  ["Wireless Earbuds","Electronics",79,4.4,"🎧",230],["Smart Watch","Electronics",199,4.1,"⌚",250],
+  ["Portable Speaker","Electronics",59,3.7,"🔊",270],["Mechanical Keyboard","Electronics",129,4.8,"⌨️",190],
+  ["Webcam HD","Electronics",45,2.6,"📷",300],["Power Bank","Electronics",35,4.0,"🔋",120],
+  ["Ceramic Mug","Home",14,4.9,"☕",15],["Scented Candle","Home",22,4.2,"🕯️",300],
+  ["Throw Pillow","Home",28,3.5,"🛋️",340],["Desk Lamp","Home",54,4.3,"💡",50],
+  ["Indoor Plant","Home",32,4.6,"🪴",140],["Wall Clock","Home",38,2.4,"🕰️",210],
+  ["Yoga Mat","Sports",30,4.5,"🧘",170],["Water Bottle","Sports",18,4.1,"🧴",195],
+  ["Dumbbell Set","Sports",75,3.6,"🏋️",5],["Tennis Racket","Sports",92,1.8,"🎾",100],
+  ["Football","Sports",26,3.3,"⚽",130],["Cycling Helmet","Sports",64,4.7,"🚴",260]
+].map(([name,category,price,rating,emoji,hue],i)=>({
+  id:i+1,name,category,price,rating,emoji,hue,
+  desc:`${name} from our ${category.toLowerCase()} range. Thoughtfully made, built to last, and ready to ship.`
+}));
+
+const PAGE_SIZE = 8;
+const RATINGS = [4,3,2,1];
+const defaults = () => ({cats:new Set(),min:"",max:"",rating:0,sort:"default",q:"",shown:PAGE_SIZE});
+let state = defaults();
+const cart = {};
+
+// ---------- Helpers ----------
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const money = n => "$" + n.toLocaleString("en-US");
+const categories = [...new Set(products.map(p=>p.category))].sort();
+const sorters = {
+  "default":(a,b)=>a.id-b.id,
+  "price-asc":(a,b)=>a.price-b.price,
+  "price-desc":(a,b)=>b.price-a.price,
+  "rating-asc":(a,b)=>a.rating-b.rating,
+  "rating-desc":(a,b)=>b.rating-a.rating,
+  "name-asc":(a,b)=>a.name.localeCompare(b.name),
+  "name-desc":(a,b)=>b.name.localeCompare(a.name)
+};
+const image = p => "data:image/svg+xml," + encodeURIComponent(
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="hsl(${p.hue},70%,86%)"/><stop offset="1" stop-color="hsl(${(p.hue+40)%360},60%,70%)"/></linearGradient></defs><rect width="200" height="200" fill="url(#g)"/><text x="100" y="125" font-size="80" text-anchor="middle">${p.emoji}</text></svg>`);
+const stars = r => "★".repeat(Math.round(r)) + "☆".repeat(5-Math.round(r));
+
+// ---------- Core logic ----------
+function getFiltered(){
+  const min = state.min === "" ? -Infinity : +state.min;
+  const max = state.max === "" ? Infinity : +state.max;
+  const q = state.q.trim().toLowerCase();
+  return products
+    .filter(p => !state.cats.size || state.cats.has(p.category))
+    .filter(p => p.price >= min && p.price <= max)
+    .filter(p => p.rating >= state.rating)
+    .filter(p => !q || p.name.toLowerCase().includes(q))
+    .sort(sorters[state.sort]);
+}
+
+// ---------- Components ----------
+const ProductCard = p => `
+  <article class="card">
+    <img src="${image(p)}" alt="${esc(p.name)}" loading="lazy" data-open="${p.id}">
+    <div class="info">
+      <span class="cat">${esc(p.category)}</span>
+      <button class="name" data-open="${p.id}">${esc(p.name)}</button>
+      <div class="stars" aria-label="Rated ${p.rating} out of 5">${stars(p.rating)}<span>${p.rating.toFixed(1)}</span></div>
+      <div class="price">${money(p.price)}</div>
+      <button class="btn" data-add="${p.id}">Add to Cart</button>
+    </div>
+  </article>`;
+
+const Badge = (label,key,val="") =>
+  `<span class="badge">${esc(label)}<button aria-label="Remove ${esc(label)}" data-remove="${key}" data-val="${esc(val)}">×</button></span>`;
+
+function renderFilters(){
+  $("catList").innerHTML = categories.map(c=>{
+    const n = products.filter(p=>p.category===c).length;
+    return `<label class="opt"><input type="checkbox" value="${c}" ${state.cats.has(c)?"checked":""}> ${c}<small>${n}</small></label>`;
+  }).join("");
+  $("ratingList").innerHTML =
+    `<label class="opt"><input type="radio" name="rating" value="0" ${state.rating===0?"checked":""}> All ratings</label>` +
+    RATINGS.map(r=>`<label class="opt"><input type="radio" name="rating" value="${r}" ${state.rating===r?"checked":""}> <span class="stars">${"★".repeat(r)}${"☆".repeat(5-r)}</span> ${r} star${r>1?"s":""} &amp; above</label>`).join("");
+}
+
+function renderBadges(){
+  const b = [];
+  state.cats.forEach(c=>b.push(Badge(c,"cat",c)));
+  if(state.min!==""||state.max!=="") b.push(Badge(`Price: ${state.min!==""?money(+state.min):"$0"} – ${state.max!==""?money(+state.max):"any"}`,"price"));
+  if(state.rating) b.push(Badge(`${state.rating}★ & above`,"rating"));
+  if(state.q.trim()) b.push(Badge(`“${state.q.trim()}”`,"q"));
+  $("badges").innerHTML = b.join("");
+}
+
+function render(){
+  const list = getFiltered();
+  const visible = list.slice(0,state.shown);
+  $("grid").innerHTML = visible.map(ProductCard).join("");
+  $("count").textContent = list.length;
+  $("countLabel").textContent = list.length === 1 ? "product" : "products";
+  $("empty").hidden = list.length > 0;
+  $("more").hidden = list.length <= state.shown;
+  $("more").textContent = `Load more (${list.length - visible.length} left)`;
+  $("range").textContent = `Selected range: ${state.min!==""?money(+state.min):"$0"} – ${state.max!==""?money(+state.max):"any price"}`;
+  renderBadges();
+}
+
+// ---------- State updates (reset pagination on every change) ----------
+function update(patch){ state = {...state, ...patch, shown:PAGE_SIZE}; render(); }
+function resetAll(){
+  state = defaults();
+  $("search").value = ""; $("min").value = ""; $("max").value = ""; $("sort").value = "default";
+  renderFilters(); render();
+}
+
+// ---------- Events ----------
+$("catList").addEventListener("change", e=>{
+  const s = new Set(state.cats);
+  e.target.checked ? s.add(e.target.value) : s.delete(e.target.value);
+  update({cats:s});
+});
+$("clearCats").onclick = () => { update({cats:new Set()}); renderFilters(); };
+$("ratingList").addEventListener("change", e => update({rating:+e.target.value}));
+$("min").oninput = e => update({min:e.target.value});
+$("max").oninput = e => update({max:e.target.value});
+$("sort").onchange = e => update({sort:e.target.value});
+$("search").oninput = e => update({q:e.target.value});
+$("clearAll").onclick = $("emptyClear").onclick = resetAll;
+$("more").onclick = () => { state.shown += PAGE_SIZE; render(); };
+$("toggle").onclick = () => $("filters").classList.toggle("open");
+
+$("badges").addEventListener("click", e=>{
+  const b = e.target.closest("[data-remove]"); if(!b) return;
+  const k = b.dataset.remove;
+  if(k==="cat"){ const s=new Set(state.cats); s.delete(b.dataset.val); update({cats:s}); }
+  if(k==="price"){ $("min").value=""; $("max").value=""; update({min:"",max:""}); }
+  if(k==="rating") update({rating:0});
+  if(k==="q"){ $("search").value=""; update({q:""}); }
+  renderFilters();
+});
+
+let toastTimer;
+function addToCart(id){
+  cart[id] = (cart[id]||0)+1;
+  $("cartCount").textContent = Object.values(cart).reduce((a,b)=>a+b,0);
+  const p = products.find(p=>p.id===id);
+  $("toast").textContent = `${p.name} added to cart`;
+  $("toast").classList.add("on");
+  clearTimeout(toastTimer); toastTimer = setTimeout(()=>$("toast").classList.remove("on"),1600);
+}
+function openDetails(id){
+  const p = products.find(p=>p.id===id);
+  $("modalBody").innerHTML = `
+    <div class="det">
+      <img src="${image(p)}" alt="${esc(p.name)}">
+      <div style="display:flex;flex-direction:column;gap:.5rem">
+        <span class="cat">${esc(p.category)}</span>
+        <h2 style="margin:0">${esc(p.name)}</h2>
+        <div class="stars">${stars(p.rating)}<span>${p.rating.toFixed(1)} / 5</span></div>
+        <div class="price" style="margin:0">${money(p.price)}</div>
+        <p style="color:var(--muted)">${esc(p.desc)}</p>
+        <button class="btn" data-add="${p.id}">Add to Cart</button>
+        <button class="btn ghost" id="closeModal">Close</button>
+      </div>
+    </div>`;
+  $("modal").showModal();
+}
+document.addEventListener("click", e=>{
+  const add = e.target.closest("[data-add]");
+  if(add) return addToCart(+add.dataset.add);
+  const open = e.target.closest("[data-open]");
+  if(open) return openDetails(+open.dataset.open);
+  if(e.target.id==="closeModal" || e.target===$("modal")) $("modal").close();
+});
+$("cart").onclick = () => {
+  const n = Object.values(cart).reduce((a,b)=>a+b,0);
+  const total = Object.entries(cart).reduce((s,[id,q])=>s+products.find(p=>p.id==id).price*q,0);
+  $("toast").textContent = n ? `${n} item(s) · ${money(total)}` : "Your cart is empty";
+  $("toast").classList.add("on"); clearTimeout(toastTimer); toastTimer=setTimeout(()=>$("toast").classList.remove("on"),1800);
+};
+
+renderFilters(); render();
+</script>
+</body>
+</html>
